@@ -1,4 +1,5 @@
-import { Card } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
+import { WindowButtons } from '../window-buttons/WindowButtons';
 
 export function Post(props) {
     return (
@@ -6,7 +7,10 @@ export function Post(props) {
             text="Dark"
             className="mb-2">
             <Card.Header>
-                <div data-testid={"cardheader-" + props.id}>{props.text}</div>
+                <Row>
+                    <Col key="cardheader.row.1"><div data-testid={"cardheader-" + props.id}>{props.text}</div></Col>
+                    <Col key="cardheader.row.2"><WindowButtons/></Col>
+                </Row>
             </Card.Header>
             <Card.Body>
             <div className="form-group">

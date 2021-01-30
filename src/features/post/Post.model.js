@@ -1,8 +1,6 @@
-import _uniqueId from 'lodash/uniqueId';
-
-export function createPost(text) {
+export function createPost(id, text) {
     return {
-        id: _uniqueId('prefix-'),
+        id: id,
         text: text
     }
 }

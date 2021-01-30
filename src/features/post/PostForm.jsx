@@ -4,6 +4,8 @@ import { useState } from 'react';
 import  './PostForm.module.css';
 import { createPost } from './Post.model';
 import _uniqueId from 'lodash/uniqueId';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPost, selectPosts } from './postFormSlice';
 
 
 function getRowKey() {
@@ -14,31 +16,36 @@ function getColKey() {
     return _uniqueId('col-');
 }
 
-export function PostForm() {
-    const [posts] = useState([]);
-    const [postElement, setPostElement] = useState([]);
+/**
+ * 
+ */
+export function PostForm() {    
     const [postText, setPostText] = useState('');
+    const dispatch = useDispatch();
+    const posts = useSelector(state => state.postform.posts);
 
     const onAddButton = () => {
-        posts.push(createPost(postText));
-        let columns = [];
-        let rows = [];
-        for (let index = 0; index < posts.length; index++) {
-            let post = posts[index];
-            columns.push(
-                <Col key={getColKey()}>
-                    <Post id={index} text={post.text}/>
-                </Col>
-            );
+        dispatch(addPost(createPost(1, postText)));
+    }
 
+    const generateColumns = posts.map((post, index) => 
+        <Col key={getColKey()}>
+            <Post id={index} text={post.text}/>
+        </Col>);
+
+    const generateRows = (columns) => {
+        let rows = [];
+        let list = [];
+        for (let index = 0; index < columns.length; index++) {
+            list.push(columns[index]);
             if ((index + 1) % 3 === 0 && index !== 0) {
-                rows.push(<Row key={getRowKey()}>{columns}</Row>);
-                columns = [];
+                rows.push(<Row key={getRowKey()}>{list}</Row>);
+                list = [];
             } else if (index === posts.length - 1) {
-                rows.push(<Row key={getRowKey()}>{columns}</Row>);
+                rows.push(<Row key={getRowKey()}>{list}</Row>);
             }
         }
-        setPostElement(() => rows.map(item => item));
+        return rows;
     }
 
     const onPostTextChangeHandler = (event) => {
@@ -68,9 +75,7 @@ export function PostForm() {
                 </Row>
                 <br/>
                 <br/>
-                <div>
-                { postElement }
-                </div>
+                {generateRows(generateColumns)}
             </Container>
         </div>
     )
