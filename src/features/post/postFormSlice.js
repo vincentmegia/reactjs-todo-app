@@ -7,17 +7,27 @@ export const postFormReducer = createSlice({
     },
     reducers: {
         removePost: (state, action) => {
-            delete state.postform.posts[action.index];
+            debugger;
+            state.posts = state.posts.filter(c => c.id !== action.payload.id);
         },
         addPost: (state, action) => {
-            const copy = [...state.posts];
-            copy.push(action.payload);
-            state.posts = copy;
+            debugger;
+            state.posts = [...state.posts, {
+                id: action.payload.id,
+                text: action.payload.text,
+                title: action.payload.title
+            }];
         },
+        updatePost: (state, action) => {
+            debugger;
+            const copy = [...state.posts];
+            copy[action.payload.id] = action.payload;
+            state.posts = copy;
+        }
     }
 });
 
-export const { removePost, addPost } = postFormReducer.actions;
+export const { removePost, addPost, updatePost } = postFormReducer.actions;
 export const selectPosts = state => { 
     return state.postform.posts;
 }

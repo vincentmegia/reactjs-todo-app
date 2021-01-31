@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    decrement,
-    increment,
-    incrementByAmount,
-    incrementAsync,
     selectCount,
 } from './topNavbarSlice';
 import styles from './TopNavbar.module.css';

@@ -20,18 +20,19 @@ function getColKey() {
  * 
  */
 export function PostForm() {    
-    const [postText, setPostText] = useState('');
+    const [postTitle, setPostTitle] = useState('');
     const dispatch = useDispatch();
     const posts = useSelector(state => state.postform.posts);
 
     const onAddButton = () => {
-        dispatch(addPost(createPost(1, postText)));
+        dispatch(addPost(createPost(posts.length, postTitle)));
+        setPostTitle('');
     }
 
-    const generateColumns = posts.map((post, index) => 
-        <Col key={getColKey()}>
-            <Post id={index} text={post.text}/>
-        </Col>);
+    const generateColumns = posts.map((post, index) => {
+        return <Col key={getColKey()}>
+            <Post post={post}/>
+        </Col>});
 
     const generateRows = (columns) => {
         let rows = [];
@@ -48,8 +49,8 @@ export function PostForm() {
         return rows;
     }
 
-    const onPostTextChangeHandler = (event) => {
-        setPostText(event.target.value);
+    const onPostTitleChangeHandler = (event) => {
+        setPostTitle(event.target.value);
     }
 
     return (
@@ -62,14 +63,14 @@ export function PostForm() {
                                 <Button data-testid="button-add"
                                     variant="outline-secondary" 
                                     onClick={onAddButton}
-                                    disabled={postText.length === 0}>Add</Button>
+                                    disabled={postTitle.length === 0}>Add</Button>
                             </InputGroup.Prepend>
                             <FormControl 
                                 data-testid="input-add"
                                 aria-describedby="basic-addon1" 
                                 placeholder="Add post title" 
-                                value={postText} 
-                                onChange={onPostTextChangeHandler}/>
+                                value={postTitle} 
+                                onChange={onPostTitleChangeHandler}/>
                         </InputGroup>
                     </Col>
                 </Row>
