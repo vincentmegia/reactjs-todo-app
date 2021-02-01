@@ -16,6 +16,7 @@ export function WindowButtons(props) {
         <div>
             <Button className={styles.windowbuttons} 
                     variant="secondary"
+                    type="submit"
                     onClick={onClick}>X</Button>
         </div>
     );

@@ -28,6 +28,7 @@ export function Post(props) {
                 className="mb-2">
             <Card.Header>
                 <Row>
+                    <Col></Col>
                     <Col key="cardheader.row.1"><div data-testid={"cardheader-" + props.post.id}>{props.post.title}</div></Col>
                     <Col key="cardheader.row.2"><WindowButtons postid={props.post.id}/></Col>
                 </Row>
@@ -36,11 +37,12 @@ export function Post(props) {
             <div className="form-group">
                 <textarea   className="form-control" 
                             rows="5" id="comment" 
-                            value={selectedPost[0] !== undefined ? selectedPost.text : ''} 
+                            value={selectedPost[0] !== undefined ? selectedPost[0].text : ''} 
+                            onBlur={onSaveHandler}
                             onChange={onPostTextChangeHandler}></textarea>
             </div>
             </Card.Body>
-            <Card.Footer>
+            {/* <Card.Footer>
                 <Row>
                     <Col><div style={{height: "20px"}}></div></Col>
                     <Col>
@@ -49,7 +51,7 @@ export function Post(props) {
                                 onClick={onSaveHandler}>Save</Button>
                     </Col>
                 </Row>
-            </Card.Footer>
+            </Card.Footer> */}
         </Card>
     )
 }

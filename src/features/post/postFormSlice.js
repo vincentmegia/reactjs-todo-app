@@ -3,31 +3,45 @@ import { createSlice } from '@reduxjs/toolkit';
 export const postFormReducer = createSlice({
     name: 'postform',
     initialState: {
-        posts: []
+        posts: [],
+        cachedPosts: []
     },
     reducers: {
         removePost: (state, action) => {
-            debugger;
             state.posts = state.posts.filter(c => c.id !== action.payload.id);
+            state.cachedPosts = [...state.posts];
         },
         addPost: (state, action) => {
-            debugger;
             state.posts = [...state.posts, {
                 id: action.payload.id,
                 text: action.payload.text,
                 title: action.payload.title
             }];
+            state.cachedPosts = [...state.posts];
         },
         updatePost: (state, action) => {
-            debugger;
             const copy = [...state.posts];
-            copy[action.payload.id] = action.payload;
+            copy[action.payload.id] = {
+                id: action.payload.id,
+                title: action.payload.title,
+                text: action.payload.text
+            };
             state.posts = copy;
+            state.cachedPosts = [...state.posts];
+        },
+        filterPost: (state, action) => {
+            if (action.payload.searchKey.length === 0) {
+                state.posts = [...state.cachedPosts];
+                return;
+            }
+            let list = [...state.posts].filter(post => post.title.indexOf(action.payload.searchKey) !== -1 || 
+            post.text.indexOf(action.payload.searchKey) !== -1 );
+            state.posts = list;
         }
     }
 });
 
-export const { removePost, addPost, updatePost } = postFormReducer.actions;
+export const { removePost, addPost, updatePost, filterPost } = postFormReducer.actions;
 export const selectPosts = state => { 
     return state.postform.posts;
 }

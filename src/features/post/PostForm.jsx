@@ -53,6 +53,12 @@ export function PostForm() {
         setPostTitle(event.target.value);
     }
 
+    const onEnterHandler = (event) => {
+        if (event.keyCode === 13) {
+            onAddButton();
+        }
+    }
+
     return (
         <div className="post-main">
             <Container>
@@ -70,6 +76,7 @@ export function PostForm() {
                                 aria-describedby="basic-addon1" 
                                 placeholder="Add post title" 
                                 value={postTitle} 
+                                onKeyUp={onEnterHandler}
                                 onChange={onPostTitleChangeHandler}/>
                         </InputGroup>
                     </Col>
