@@ -25,7 +25,7 @@ export function PostForm() {
     const posts = useSelector(state => state.postform.posts);
 
     const onAddButton = () => {
-        dispatch(addPost(createPost(posts.length, postTitle)));
+        dispatch(addPost(createPost(posts.length, postTitle, '')));
         setPostTitle('');
     }
 

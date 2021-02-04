@@ -9,14 +9,16 @@ import { Button, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
 
 export function TopNavbar() {
     const dispatch = useDispatch();
+    // const selectedPost = useSelector(state => state.postform.posts.filter(p => p.id === props.post.id));
     const [searchKey, setSearchKey] = useState('');
 
     const onSearchHandler = () => {
-        dispatch(filterPost({searchKey: searchKey}));
+        
     }
 
     const onSearchKeyChange = (event) => {
         setSearchKey(event.target.value);
+        dispatch(filterPost({searchKey: event.target.value}));
     }
 
     return (
@@ -31,7 +33,6 @@ export function TopNavbar() {
                                     className="mr-sm-2" 
                                     value={searchKey} 
                                     onChange={onSearchKeyChange}/>
-                        <Button variant="outline-success" onClick={onSearchHandler}>Search</Button>
                     </Form>
                 </Navbar.Collapse>
             </Navbar>

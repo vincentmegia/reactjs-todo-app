@@ -15,7 +15,8 @@ export const postFormReducer = createSlice({
             state.posts = [...state.posts, {
                 id: action.payload.id,
                 text: action.payload.text,
-                title: action.payload.title
+                title: action.payload.title,
+                date: action.payload.date
             }];
             state.cachedPosts = [...state.posts];
         },
@@ -24,7 +25,8 @@ export const postFormReducer = createSlice({
             copy[action.payload.id] = {
                 id: action.payload.id,
                 title: action.payload.title,
-                text: action.payload.text
+                text: action.payload.text,
+                date: action.payload.date
             };
             state.posts = copy;
             state.cachedPosts = [...state.posts];
@@ -34,6 +36,7 @@ export const postFormReducer = createSlice({
                 state.posts = [...state.cachedPosts];
                 return;
             }
+            debugger;
             let list = [...state.posts].filter(post => post.title.indexOf(action.payload.searchKey) !== -1 || 
             post.text.indexOf(action.payload.searchKey) !== -1 );
             state.posts = list;

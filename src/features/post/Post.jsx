@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { WindowButtons } from '../window-buttons/WindowButtons';
@@ -8,7 +8,8 @@ import styles from './PostForm.module.css';
 export function Post(props) {
     const dispatch = useDispatch();
     const selectedPost = useSelector(state => state.postform.posts.filter(p => p.id === props.post.id));
-    const [text, setText] = useState('');
+    const [text, setText] = useState(selectedPost[0].text);
+    const myInput = useRef();
 
     const onPostTextChangeHandler = (event) => {
         setText(event.target.value);
@@ -18,7 +19,8 @@ export function Post(props) {
         dispatch(updatePost({
                 id: props.post.id, 
                 title: props.post.title, 
-                text: text
+                text: text,
+                date: props.post.date
             }));
     }
 
@@ -34,24 +36,15 @@ export function Post(props) {
                 </Row>
             </Card.Header>
             <Card.Body>
-            <div className="form-group">
-                <textarea   className="form-control" 
-                            rows="5" id="comment" 
-                            value={selectedPost[0] !== undefined ? selectedPost[0].text : ''} 
-                            onBlur={onSaveHandler}
-                            onChange={onPostTextChangeHandler}></textarea>
-            </div>
+                <Card.Subtitle className="mb-2 text-muted">{props.post.date}</Card.Subtitle>
+                <div className="form-group">
+                    <textarea   className="form-control" 
+                                rows="5" id="comment" 
+                                value={text} 
+                                onBlur={onSaveHandler}
+                                onChange={onPostTextChangeHandler}></textarea>
+                </div>
             </Card.Body>
-            {/* <Card.Footer>
-                <Row>
-                    <Col><div style={{height: "20px"}}></div></Col>
-                    <Col>
-                        <Button className={styles.postsave} 
-                                variant="secondary"
-                                onClick={onSaveHandler}>Save</Button>
-                    </Col>
-                </Row>
-            </Card.Footer> */}
         </Card>
     )
 }
